@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    { "name": "Run main transcriber", "type": "python", "request": "launch",
+      "program": "${workspaceFolder}/polish_diary_batch_transcribe_v6.py", "args": [""],
+      "cwd": "${workspaceFolder}", "console": "integratedTerminal", "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env" },
+    { "name": "Start Review UI (review_app.py)", "type": "python", "request": "launch",
+      "program": "${workspaceFolder}/review_app.py",
+      "args": ["--config","config.yaml","--host","127.0.0.1","--port","5057"],
+      "cwd": "${workspaceFolder}", "console": "integratedTerminal", "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env" },
+    { "name": "Export Bilingual (ALL PDFs)", "type": "python", "request": "launch",
+      "program": "${workspaceFolder}/translation_export.py", "args": ["--config","config.yaml"],
+      "cwd": "${workspaceFolder}", "console": "integratedTerminal", "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env" },
+    { "name": "Export Bilingual (ONE PDF - edit args)", "type": "python", "request": "launch",
+      "program": "${workspaceFolder}/translation_export.py", "args": ["--config","config.yaml","--pdf","REPLACE_WITH_FOLDER_NAME"],
+      "cwd": "${workspaceFolder}", "console": "integratedTerminal", "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env" },
+    { "name": "Python: Current File", "type": "python", "request": "launch",
+      "program": "${file}", "console": "integratedTerminal", "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env" }
+  ]
+}

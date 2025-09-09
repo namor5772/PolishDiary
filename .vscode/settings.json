@@ -1,0 +1,18 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+  "python.envFile": "${workspaceFolder}/.env",
+  "[python]": { "editor.formatOnSave": true },
+  "terminal.integrated.cwd": "${workspaceFolder}",
+  "python.analysis.typeCheckingMode": "basic",
+  "python-envs.pythonProjects": [
+    {
+      "path": "",
+      "envManager": "ms-python.python:venv",
+      "packageManager": "ms-python.python:pip"
+    }
+  ],
+  "editor.wordWrapColumn": 55,
+  "editor.wordWrap": "wordWrapColumn",
+  "[plaintext]": {
+  "editor.fontSize": 18
+}

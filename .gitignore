@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+output_transcripts/
+input_pdfs/
+!input_pdfs/.gitkeep
+_revisions/

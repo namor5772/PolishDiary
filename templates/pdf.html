@@ -1,0 +1,1 @@
+{% extends "base.html" %}{% block content %}<h2>{{ pdf_name }}</h2>{% for r in rows %}<div>#{{ r.idx+1 }} - {{ r.label }} - <a href="{{ url_for('review', pdf_name=pdf_name, idx=r.idx) }}">Review</a> ({{ 'Yes' if r.reviewed else 'No' }})</div>{% endfor %}{% endblock %}

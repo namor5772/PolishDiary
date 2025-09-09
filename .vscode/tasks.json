@@ -1,0 +1,9 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "Install requirements", "type": "shell",
+      "command": "${config:python.defaultInterpreterPath}",
+      "args": ["-m","pip","install","-r","requirements.txt"],
+      "options": { "cwd": "${workspaceFolder}" }, "problemMatcher": [] }
+  ]
+}

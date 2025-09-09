@@ -1,0 +1,1 @@
+Error code: 400 - {'error': {'message': "Invalid value: 'concise'. Supported values are: 'low', 'medium', and 'high'.", 'type': 'invalid_request_error', 'param': 'text.verbosity', 'code': 'invalid_value'}}

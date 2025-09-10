@@ -16,6 +16,8 @@ from pathlib import Path
 import numpy as np
 from openai import OpenAI, BadRequestError
 from PIL import Image, ImageOps, ImageFilter
+from typing import Any, Dict
+from openai import APIStatusError, APIConnectionError, RateLimitError  # adjust imports to your SDK
 
 # --------------------------
 # Configuration
@@ -26,7 +28,7 @@ OUTPUT_DIR = BASE_DIR / "output_transcripts"
 DEBUG_DIR = BASE_DIR / "debug_api_payloads"
 
 MODEL_NAME = "gpt-5"
-START_PAGE = 94       # process only pages >= this number
+START_PAGE = 128       # process only pages >= this number
 USE_POST_CLEAN = True
 CALL_DELAY_S = 0.5
 MAX_RETRIES = 4
@@ -90,6 +92,7 @@ def data_uri_from_png_bytes(png_bytes):
 # --------------------------
 # API call
 # --------------------------
+
 def try_create_response(client, payload):
     try:
         return client.responses.create(**payload)
@@ -103,6 +106,7 @@ def try_create_response(client, payload):
                 payload.pop(k, None)
             return client.responses.create(**payload)
         raise
+
 
 def call_openai_transcribe_image(client, model, data_uri):
     payload = dict(
@@ -126,6 +130,7 @@ def call_openai_transcribe_image(client, model, data_uri):
 
 def dehyphenate_soft_wraps(text):
     return re.sub(r"(\w)[-\u00AD]\s*\n(\w)", r"\1\2", text, flags=re.UNICODE)
+
 
 # --------------------------
 # Discover input pages

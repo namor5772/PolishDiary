@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     { "name": "Run main transcriber", "type": "python", "request": "launch",
-      "program": "${workspaceFolder}/polish_diary_batch_transcribe_v6.py", "args": [""],
+      "program": "${workspaceFolder}/Polish_handwriting_transcriber_v4.py", "args": [""],
       "cwd": "${workspaceFolder}", "console": "integratedTerminal", "justMyCode": true,
       "envFile": "${workspaceFolder}/.env" },
     { "name": "Start Review UI (review_app.py)", "type": "python", "request": "launch",

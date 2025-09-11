@@ -36,8 +36,8 @@ INPUT_DIR = BASE_DIR / "input_pages"
 OUTPUT_DIR = BASE_DIR / "output_transcripts"
 
 # Page range: start number and how many consecutive pages to attempt.
-START_NUM = 123      # e.g., 23  -> starts at Eugenia_pg023.png
-COUNT = 2           # e.g., 3   -> 023, 024, 025
+START_NUM = 134      # e.g., 23  -> starts at Eugenia_pg023.png
+COUNT = 10           # e.g., 3   -> 023, 024, 025
 
 # Optional: upscale factor before binarization (helps readability).
 UPSCALE = 1.5       # 1.0 means no scaling

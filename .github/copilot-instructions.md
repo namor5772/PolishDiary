@@ -1,55 +1,44 @@
 # Copilot Instructions for PolishDiary
 
-## Project Overview
-This repository transcribes scanned Polish handwritten diary pages into text using OpenAI's GPT-5 Responses API. The workflow is highly automated, with all configuration hardcoded in the main script. The process includes targeted image preprocessing and strict transcription rules.
+Purpose: Transcribe scanned Polish handwritten diary pages into plain text using OpenAI Responses API (model alias: `gpt-5`). Single-file script; no CLI args; all config is constants at top of the file.
 
-## Key Components & Data Flow
-- **Main script:** `Polish_handwriting_transcriber_v4.py` (all logic, no CLI args)
-- **Input images:** `input_pages/Eugenia_pg###.png` (3-digit, sequential)
-- **Output transcripts:** `output_transcripts/Eugenia_pg###.txt` (one per image)
-- **Preprocessing:** Grayscale, BICUBIC upscale, autocontrast, unsharp mask, Otsu binarization
-- **API integration:** OpenAI Responses API (GPT-5), no `response_format` parameter
-- **Logging:** Per-page metrics (chars, bytes, timings), summary table
+Architecture & data flow
+- Main entry: `Polish_handwriting_transcriber_v4.py` (runs directly).
+- Input images: `input_pages/Eugenia_pg###.png` → Output text: `output_transcripts/Eugenia_pg###.txt` (exact 3 digits).
+- Preprocessing pipeline: grayscale → optional BICUBIC upscale → autocontrast → UnsharpMask → Otsu binarization (pure-Python; no NumPy).
+- OpenAI call: `from openai import OpenAI`; Responses API with one system prompt + one user message, sending the page as a data URI (`input_image`) followed by `input_text`.
+- Postprocess: strip code fences/labels; join hyphenated line breaks only; normalize whitespace; keep paragraphs.
+- Logging: per-page metrics (chars, UTF‑8 bytes, total s, preproc s) and a console summary table.
 
-## Developer Workflow
-- All configuration is at the top of `Polish_handwriting_transcriber_v4.py`:
-  - `START_NUM`, `COUNT`, `MODEL_NAME`, `UPSCALE`, `LOG_LEVEL`
-- No command-line arguments; run directly: `python Polish_handwriting_transcriber_v4.py`
-- API key must be set in the environment (`OPENAI_API_KEY`)
-- Input/output directories must exist; script will create `output_transcripts/` if missing
-- Install dependencies: `pip install pillow openai`
+Developer workflow (VS Code)
+- Install deps: run task “Install requirements” or `pip install -r requirements.txt`.
+- Set API key (Windows PowerShell): `setx OPENAI_API_KEY "sk-..."` then open a new terminal.
+- Place files named exactly `Eugenia_pg023.png` etc. Note: files with a trailing underscore (e.g., `Eugenia_pg001_.png`) will be skipped by the strict matcher—rename to `Eugenia_pg001.png`.
+- Configure in code (top constants): `START_NUM`, `COUNT`, `MODEL_NAME`, `UPSCALE`, `LOG_LEVEL`.
+- Run: `python Polish_handwriting_transcriber_v4.py`.
 
-## Project-Specific Patterns
-- **Strict file naming:** Only files matching `Eugenia_pg###.png` are processed
-- **Literal transcription:** Spelling mistakes and idioms preserved, layout ignored, unreadable fragments as `[**]`
-- **Preprocessing logic:** Handles Pillow enum changes for BICUBIC, pure-Python Otsu thresholding
-- **Error handling:** Missing files are logged as warnings, not fatal
-- **No response_format:** Avoids API errors by omitting this parameter
+Project-specific conventions
+- Literal transcription: preserve original spelling/idioms; do not mimic layout; unreadable = `[**]` exactly; Polish diacritics preserved.
+- Do not add `response_format` to Responses API calls (avoids SDK errors). The extractor prefers `resp.output_text`, with a tolerant fallback that walks `resp.output`.
+- Pillow compatibility: BICUBIC enum handled via try/except for Pillow ≥10 vs older; Otsu done on `L` mode with a safe `point(lambda p, t=thr: 255 if p > t else 0)`.
+- Missing inputs are warnings, not fatal; script creates `output_transcripts/` if needed.
 
-## Integration Points
-- **OpenAI API:** Uses `from openai import OpenAI` and the Responses API
-- **Image processing:** Pillow (PIL)
-- **Environment:** Windows/OneDrive paths supported; UTF-8 output
+Integration points & examples
+- Exact mapping: `input_pages/Eugenia_pg023.png` → `output_transcripts/Eugenia_pg023.txt`.
+- Messages payload shape (Responses API):
+  - system: `{"type":"input_text","text": SYSTEM_PROMPT}`
+  - user: `[ {"type":"input_image","image_url": data_uri}, {"type":"input_text","text": USER_PROMPT} ]`
+- UTF‑8 outputs, written as bytes.
 
-## Example Workflow
-1. Place PNGs in `input_pages/` (named `Eugenia_pg023.png`, etc.)
-2. Set API key: `setx OPENAI_API_KEY "sk-..."` (Windows)
-3. Adjust constants in script as needed
-4. Run: `python Polish_handwriting_transcriber_v4.py`
-5. Check `output_transcripts/` for results and console for summary
+Pitfalls & troubleshooting
+- Filenames must be `Eugenia_pg###.png` (no suffixes like `_`).
+- OneDrive/Windows paths work; ensure folders are available offline and writable.
+- If API errors/rate limits occur, reduce `COUNT` and retry.
+- To strengthen readability, increase `UPSCALE` moderately (e.g., 1.7–2.0).
 
-## Troubleshooting
-- Do not use `response_format` in API calls
-- Ensure filenames match exactly
-- For Pillow BICUBIC, script auto-detects enum
-- For Otsu thresholding, script uses safe lambda on L mode
-- API errors: reduce `COUNT` or retry
+Key files/dirs
+- Script: `Polish_handwriting_transcriber_v4.py`
+- Inputs: `input_pages/` | Outputs: `output_transcripts/`
+- Docs: `README.md` (rationale, usage). Other text files and `debug_api_payloads/` are reference materials and not used by the script.
 
-## References
-- See `README.md` for full rationale, configuration, and troubleshooting details
-- Main script: `Polish_handwriting_transcriber_v4.py`
-- Input: `input_pages/`, Output: `output_transcripts/`
-
----
-
-If any section is unclear or missing, please provide feedback for further refinement.
+If any part of this is unclear or incomplete (e.g., handling of current filenames with underscores, desired output formatting), please share details and I’ll refine the guidance.

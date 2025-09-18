@@ -11,7 +11,7 @@
       "packageManager": "ms-python.python:pip"
     }
   ],
-  "editor.wordWrapColumn": 55,
+  "editor.wordWrapColumn": 65,
   "editor.wordWrap": "wordWrapColumn",
   "[plaintext]": {
   "editor.fontSize": 18

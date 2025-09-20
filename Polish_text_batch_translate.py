@@ -30,12 +30,12 @@ with suppress(Exception):
 # ------------------------------ USER CONSTANTS ---------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent
-INPUT_FILE = BASE_DIR / "polish_input.txt"
+INPUT_FILE = BASE_DIR / "polish_input_part.txt" # change as necessary
 
 OUT_DIR = BASE_DIR / "translation_output"
 CHUNKS_PL_DIR = OUT_DIR / "chunks_pl"
 CHUNKS_EN_DIR = OUT_DIR / "chunks_en"
-FINAL_EN_FILE = OUT_DIR / "translated_full_en.txt"
+FINAL_EN_FILE = OUT_DIR / "translated_full_part_en.txt"
 MANIFEST_CSV = OUT_DIR / "manifest.csv"
 
 # Target chunk size (whole paragraphs only)
@@ -54,61 +54,19 @@ MODEL_PREFERENCE = [
     "gpt-4o-mini",
 ]
 
-'''
-SYSTEM_PROMPT = """
-You are a professional translator specializing in Polish-to-English translation for archival, historical, and documentary texts.
-Your task is to produce literal and faithful translations of Polish text into English. Follow these rules:
-
-1. Preserve Original Structure
-   - Keep sentence order and paragraph breaks as in the source.
-   - Do not combine or split sentences unless absolutely necessary for basic English readability.
-
-2. Literal Accuracy over Style
-   - Translate word-for-word as far as possible while keeping correct English grammar.
-   - If the Polish is ungrammatical or fragmented, preserve this effect in English rather than smoothing it out.
-
-3. Maintain Register and Tone
-   - Preserve the formality, emotional tone, and historical “feel” of the text.
-   - Do not modernize vocabulary or idioms unnecessarily.
-
-4. Proper Names and Terms
-   - Keep Polish names, places, and cultural terms untranslated (e.g., Babcia, kutia).
-   - Provide a parenthetical note only if absolutely necessary for clarity.
-
-5. Spelling and Punctuation
-   - Reflect punctuation, capitalization, and stylistic quirks of the original as closely as possible.
-   - Do not “correct” the original author’s style.
-
-6. Ambiguities and Missing Words
-   - If a passage is unclear, provide your best literal rendering and, if necessary, add an alternative in square brackets.
-
-7. Output Requirement
-   - Produce only the translation text.
-   - Do not include commentary or explanations unless explicitly requested.
-   - Preserve paragraph boundaries as received, but DO NOT insert blank empty lines.
-   - Separate paragraphs with a SINGLE newline character only (no extra blank line).
-   - Do not indent paragraphs; first character of each line should be non-space.
-""".strip()
-
-USER_PROMPT_PREFIX = (
-    "Translate the following Polish text into English, literally and accurately. "
-    "Keep exactly one newline between paragraphs (no blank empty lines) and no leading spaces:\n\n"
-)
-'''
 
 SYSTEM_PROMPT = """
-You are a professional translator specializing in Polish-to-English translation for historical and documentary texts.
-Your task is to produce faithful translations of Polish text into English. Follow these rules:
-- Keep sentence order and paragraph breaks as in the source.
-- Preserve the formality, emotional tone, and historical “feel” of the text.
-- Do not modernize vocabulary or idioms unnecessarily.
-- Keep Polish names, places, and cultural terms untranslated (e.g., Babcia, kutia).
-- Provide a parenthetical note only if absolutely necessary for clarity.
-- Reflect punctuation, capitalization, and stylistic quirks of the original as closely as possible.
-- Do not “correct” the original author’s style.
-- If a passage is unclear, provide your best literal rendering and, if necessary, add an alternative in square brackets.
-- Produce only the translation text.
-- Do not include commentary or explanations unless explicitly requested.
+You are a professional translator specializing in Polish-to-English translation for diaries written just before WW2 in then Eastern Poland.
+Translate Polish text into English with maximum fidelity. 
+- Preserve sentence order, paragraphing and tone. 
+- Smooth the style. 
+- Keep Polish names, places, and cultural terms untranslated. 
+- If unclear, render literally and note alternatives in [brackets]. 
+- Output only the translation, with no explanations.
+- keep the term Babcia or similar if you would translate it to Grandma
+- Do not translate pronouns like Ją, On, Niej etc. with a capital first letter unless it is at the start of an english sentence.
+- translate " k/" or " K/" as " near "
+- translate " p." as "Mrs" if female or "Mr" if male
 - Preserve paragraph boundaries as received, but DO NOT insert blank empty lines.
 - Separate paragraphs with a SINGLE newline character only (no extra blank line).
 - Do not indent paragraphs; first character of each line should be non-space.

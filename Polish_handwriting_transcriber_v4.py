@@ -36,8 +36,8 @@ INPUT_DIR = BASE_DIR / "input_pages"
 OUTPUT_DIR = BASE_DIR / "output_transcripts"
 
 # Page range: start number and how many consecutive pages to attempt.
-START_NUM = 144      # e.g., 23  -> starts at Eugenia_pg023.png
-COUNT = 13           # e.g., 3   -> 023, 024, 025
+START_NUM = 1      # e.g., 23  -> starts at Eugenia_pg023.png
+COUNT = 156        # e.g., 3   -> 023, 024, 025
 
 # Optional: upscale factor before binarization (helps readability).
 UPSCALE = 1.5       # 1.0 means no scaling
@@ -260,7 +260,7 @@ def write_text(out_path: Path, text: str) -> Tuple[int, int]:
 def process_one_page(
     client: OpenAI, page_num: int
 ) -> PageResult:
-    in_name = f"Eugenia_pg{page_num:03d}.png"
+    in_name = f"Eugenia_pg{page_num:03d}_.png"
     out_name = f"Eugenia_pg{page_num:03d}.txt"
     in_path = INPUT_DIR / in_name
     out_path = OUTPUT_DIR / out_name
@@ -335,7 +335,7 @@ def main() -> None:
     ensure_dirs()
 
     # Basic sanity: warn if no images matching pattern exist at/after START_NUM
-    sample = INPUT_DIR / f"Eugenia_pg{START_NUM:03d}.png"
+    sample = INPUT_DIR / f"Eugenia_pg{START_NUM:03d}_.png"
     if not sample.exists():
         logging.warning("First requested page does not exist: %s", sample)
 

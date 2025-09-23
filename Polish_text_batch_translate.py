@@ -30,12 +30,12 @@ with suppress(Exception):
 # ------------------------------ USER CONSTANTS ---------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent
-INPUT_FILE = BASE_DIR / "polish_input_part.txt" # change as necessary
+INPUT_FILE = BASE_DIR / "polish_input.txt" # change as necessary
 
 OUT_DIR = BASE_DIR / "translation_output"
 CHUNKS_PL_DIR = OUT_DIR / "chunks_pl"
 CHUNKS_EN_DIR = OUT_DIR / "chunks_en"
-FINAL_EN_FILE = OUT_DIR / "translated_full_part_en.txt"
+FINAL_EN_FILE = OUT_DIR / "translated_full_en.txt"
 MANIFEST_CSV = OUT_DIR / "manifest.csv"
 
 # Target chunk size (whole paragraphs only)

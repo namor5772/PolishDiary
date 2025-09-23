@@ -1,5 +1,5 @@
 # What this Repository is all about
-Python with OpenAI APIs was used to transcribe my polish grandmothers handwitten story of what happened to her family during WW2 and after. It was written in 1974 for my mother. It processes 157 pages scanned as *.png files and transcribes them into corresponding *.txt files.
+Python with OpenAI APIs was used to transcribe my polish grandmothers handwitten story of what happened to her family during WW2 and after. It was written in 1974 for my mother. It processes 157 pages scanned as *.png files and transcribes them into corresponding *.txt files. Therafter I use Polish_text_batch_translate.py to translate the polish_input.txt
 
 Amazingly I used "ChatGPT 5 Thinking" with the following prompt to get working code first try.
 The only thing I "needed" to do to the code was to (in the VS Code environment) do a Quick Fix on 3 sections of code, by adding `# type: ignore`. This was just for cosmetics. Scanning made a big difference to the quality of the transciption, nevertheless I had to manually correct the transcription of all pages, but it did reduce the time for transcription by about 60%. 

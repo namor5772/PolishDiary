@@ -30,17 +30,17 @@ with suppress(Exception):
 # ------------------------------ USER CONSTANTS ---------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent
-INPUT_FILE = BASE_DIR / "polish_input.txt" # change as necessary
+INPUT_FILE = BASE_DIR / "Eugenia_all_final.txt" # change as necessary
 
 OUT_DIR = BASE_DIR / "translation_output"
 CHUNKS_PL_DIR = OUT_DIR / "chunks_pl"
 CHUNKS_EN_DIR = OUT_DIR / "chunks_en"
-FINAL_EN_FILE = OUT_DIR / "translated_full_en.txt"
+FINAL_EN_FILE = OUT_DIR / "translated_full_en.txt" # change as necessary
 MANIFEST_CSV = OUT_DIR / "manifest.csv"
 
 # Target chunk size (whole paragraphs only)
-TARGET_WORDS_PER_CHUNK = 300
-MAX_WORDS_PER_CHUNK = 360  # soft cap
+TARGET_WORDS_PER_CHUNK = 500
+MAX_WORDS_PER_CHUNK = 600  # soft cap
 
 # IMPORTANT: We want EXACTLY ONE NEWLINE between paragraphs in the output.
 PARAGRAPH_SEPARATOR = "\n"  # (was "\n\n" before)
@@ -108,8 +108,8 @@ def get_openai_client() -> OpenAI:
 
 def extract_server_message(exc: Exception) -> str:
     with suppress(Exception):
-        if hasattr(exc, "response") and exc.response is not None:
-            data = exc.response
+        if hasattr(exc, "response") and exc.response is not None: # type: ignore
+            data = exc.response # type: ignore
             if isinstance(data, dict):
                 return data.get("error", {}).get("message") or str(data)
             with suppress(Exception):

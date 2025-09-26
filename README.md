@@ -1,11 +1,12 @@
 # What this Repository is all about
-Python with OpenAI APIs was used to transcribe my polish grandmothers handwitten story of what happened to her family during WW2 and after. It was written in 1974 for my mother. It processes 157 pages scanned as *.png files and transcribes them into corresponding *.txt files. Therafter I use Polish_text_batch_translate.py to translate the polish_input.txt
+
+Python with OpenAI APIs was used to transcribe and then translate into english my polish grandmothers handwitten story of what happened to her family during WW2 and after. It was written in 1974 for my mother. I had to scan the 156 individual diary pages into png files and the python code [Polish_handwriting_transcriber_v4.py](Polish_handwriting_transcriber_v4.py) with OpenAI APIs transcribes them into corresponding txt files.
 
 Amazingly I used "ChatGPT 5 Thinking" with the following prompt to get working code first try.
-The only thing I "needed" to do to the code was to (in the VS Code environment) do a Quick Fix on 3 sections of code, by adding `# type: ignore`. This was just for cosmetics. Scanning made a big difference to the quality of the transciption, nevertheless I had to manually correct the transcription of all pages, but it did reduce the time for transcription by about 60%. 
+The only thing I "needed" to do to the code was to (in the VS Code environment) do a Quick Fix on 3 sections of code, by adding `# type: ignore`. This was just for cosmetics. Scanning made a big difference to the quality of the transciption, nevertheless I had to manually correct the transcription of all pages, but it did reduce the time for transcription by about 60%.
 
 ```text
-I would like you to create for me a python program for me with the following properties:
+I would like you to create for me a python program with the following properties:
 
 1. When run it has no command-line argument, any such things are hardcoded into the code.
 2. It will run from some base directory (in which the *.py file will reside). Call it Polish_handwriting_transcriber_v4. In that directory there will be two subdirectories. 
@@ -21,11 +22,24 @@ I would like you to create for me a python program for me with the following pro
 12. Make sure to not to use the response_format parameter in the Responses API, since it causes errors when running the code.
 
 ```
+If you want, go to the [AI response](#the-ai-response-for-creating-the-transcribing-python-code) and the AI generated [python code description](#polish_handwriting_transcriber_v4py) futher along in this README.md file.
 
-## The AI response
+After this the manually corrected transcription files (from the output_transcripts directory) are concatenated into one whole txt file [Eugenia_all.txt](Eugenia_all.txt) using [Polish_text_combiner.py](Polish_text_combiner.py). This file needs to be finally **manually edited** to correctly reflect paragraphs and space/display headings, this one is renamed [Ja_I_Wojna_final.txt](Ja_I_Wojna_final.txt).
+
+Therafter I used [Polish_text_batch_translate.py](Polish_text_batch_translate.py) to translate the above file into [translated_full_en.txt](translation_output\translated_full_en.txt). This python code was also created using AI. This file was **manually edited** to give you the final version in [Me_and_the_war_final.txt](Me_and_the_war_final.txt).
+
+Thereafter corresponding txt files are converted to docx files using MS Word, where some nice to have formatting is added. These files can then be exported into pdf format and Kindle format (againg using the export facilities of MS Word). The base polish and english names remain unchanged at **Ja_I_Wojna_final** and **Me_and_the_war_final** respectively.
+
+--- Locked down 26-Oct-2025 ---
+
+<br><br>
+
+# The AI response for creating the transcribing python code
+
 Roman, here’s a complete, single-file Python program that matches your spec. It hard-codes the base paths and page range, runs simple but effective OCR-oriented preprocessing (grayscale → contrast → sharpen → Otsu binarization → safe BICUBIC upscale), calls the __OpenAI Responses API__ with __gpt-5__ (no `response_format` used), and writes literal Polish transcriptions to per-page `.txt` files. It also logs, for each page, (a) character count of the resulting transcript, and (b) timings (total and preprocessing). Unreadable fragments are marked as `[**]`.
 
 ### How to use
+
 1. __"Save the file below as__ `Polish_handwriting_transcriber_v4.py` in your base folder."
 1. __"Ensure subfolders__ `input_pages/` __and__ `output_transcripts/` __exist."__
 1. __"Name images like__ `Eugenia_pg023.png`__."__
@@ -35,10 +49,11 @@ Roman, here’s a complete, single-file Python program that matches your spec. I
 1. __"Run:__ `python Polish_handwriting_transcriber_v4.py`__"__
 
 <br><br>
-<<< PLACE IN RESPONSE WHERE PYTHON CODE WAS MADE AVAILABLE FOR COPYING >>>
+<<< PLACE IN RESPONSE WHERE [Polish_handwriting_transcriber_v4.py](Polish_handwriting_transcriber_v4.py) WAS MADE AVAILABLE FOR COPYING >>>
 <br><br>
 
 ### Notes & rationale
+
 - __No CLI args:__ All knobs are constants at the top (`START_NUM`, `COUNT`, `MODEL_NAME`, `UPSCALE`).
 - __Paths:__ The script treats the folder containing the .py file as the base; uses `./input_pages` and `./output_transcripts`.
 - __Preprocessing:__ Kept light but targeted for handwriting: grayscale → safe __BICUBIC__ upscale (handles the Pillow enum change), autocontrast, mild unsharp mask, __Otsu__ thresholding (pure-Python, no NumPy). Critically, the thresholding is done on L mode so the lambda sees integers—this avoids the “`>` not supported” issue you saw when someone tried to threshold in the wrong mode.
@@ -52,8 +67,8 @@ Roman, here’s a complete, single-file Python program that matches your spec. I
 If you want me to tailor the preprocessing for your exact page scans (e.g., stronger denoise, background flattening, deskew), say the word and I’ll slot it in without adding heavy dependencies, or—if you prefer—add OpenCV/Tesseract hooks as optional paths.
 
 <br><br>
-# AI generated readme for this Repository 
-# Polish Handwriting Transcriber v4
+
+# Polish_Handwriting_Transcriber_v4.py
 
 A small, single-file Python utility that transcribes scanned **Polish handwritten diary pages** into plain UTF-8 text files using OpenAI’s **Responses API** (model: **gpt-5**).  
 The program applies light OCR-oriented preprocessing (grayscale → optional **BICUBIC** upscale → autocontrast → unsharp mask → **Otsu** binarization), then prompts the model to produce a **literal** transcript:

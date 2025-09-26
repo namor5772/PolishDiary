@@ -32,7 +32,7 @@ Thereafter corresponding txt files are converted to docx files using MS Word, wh
 
 The cost of using the OpenAI gpt-5 APIs was about AUD $10, with most of the cost (approximately $8.50) spent on the transcription of the handwriting.
 
---- Locked down 26-Oct-2025 ---
+--- Locked down 26-Sep-2025 ---
 
 <br><br>
 

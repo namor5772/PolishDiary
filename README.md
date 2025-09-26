@@ -28,7 +28,9 @@ After this the manually corrected transcription files (from the output_transcrip
 
 Therafter I used [Polish_text_batch_translate.py](Polish_text_batch_translate.py) to translate the above file into [translated_full_en.txt](translation_output\translated_full_en.txt). This python code was also created using AI. This file was **manually edited** to give you the final version in [Me_and_the_war_final.txt](Me_and_the_war_final.txt).
 
-Thereafter corresponding txt files are converted to docx files using MS Word, where some nice to have formatting is added. These files can then be exported into pdf format and Kindle format (againg using the export facilities of MS Word). The base polish and english names remain unchanged at **Ja_I_Wojna_final** and **Me_and_the_war_final** respectively.
+Thereafter corresponding txt files are converted to docx files using MS Word, where some "nice to have" formatting is added. These files can then be exported into pdf and Kindle format (again using the export facilities of MS Word). The base polish and english names remain unchanged as **Ja_I_Wojna_final** and **Me_and_the_war_final** respectively.
+
+The cost of using the OpenAI gpt-5 APIs was about AUD $10, with most of the cost (approximately $8.50) spent on the transcription of the handwriting.
 
 --- Locked down 26-Oct-2025 ---
 
